@@ -23,11 +23,21 @@ implementation 'com.github.kshdreams:social-api:0.1'
 
 
 #### How To Use
+##### Login (Auth)
+```java
+InstagramAuthDialogFragment
+        .show(getFragmentManager(), InstagramClientInfo.CLIENT_ID,
+                InstagramClientInfo.REDIRECT_URI);
+```
 
+##### Use API
 ```java
 public interface InstagramApi {
     @GET("/v1/users/self")
     Single<Response<UserInfo>> userSelf(@Query("access_token") String token);
+
+    @GET("/v1/users/self/media/recent")
+    Single<Response<List<UserMedia>>> userSelfRecentMedia(@Query("access_token") String token);
 }
 
 private InstagramApi mInstagramApi = new InstagramApiImpl();
