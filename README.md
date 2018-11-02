@@ -31,6 +31,16 @@ InstagramAuthDialogFragment
         .show(getFragmentManager(), InstagramClientInfo.CLIENT_ID,
                 InstagramClientInfo.REDIRECT_URI);
 ```
+
+and target Activity or Fragment should implements ```AuthCallback```
+```java
+public class MainActivity extends AppCompatActivity implements AuthCallbacks<String> {
+    @Override
+    public void onAuthCompleted(final String authToken) {
+        // TODO : call api using token
+    }
+```
+
 <img src="./image/screenshot_login.png" alt="login" width="300"/>
 
 ##### Use API
