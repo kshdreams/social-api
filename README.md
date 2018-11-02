@@ -6,7 +6,7 @@ Retrofit interface for instagram, band, etc (social api)
 
 
 ##### GETTING STARTED
-SimpleArrayAdapter releases are available via JitPack.
+social-api releases are available via JitPack.
 ```ruby
 // Project level build.gradle
 // ...
@@ -23,13 +23,15 @@ implementation 'com.github.kshdreams:social-api:0.1'
 
 
 #### How To Use
+The most basic case is as follows:
+
 ##### Login (Auth)
 ```java
 InstagramAuthDialogFragment
         .show(getFragmentManager(), InstagramClientInfo.CLIENT_ID,
                 InstagramClientInfo.REDIRECT_URI);
 ```
-<img src="./image/screenshot_login.png" alt="drawing" width="300"/>
+<img src="./image/screenshot_login.png" alt="login" width="300"/>
 
 ##### Use API
 ```java
@@ -60,7 +62,7 @@ mInstagramApi.userSelf(instagramToken)
             }
         });
 ```
-
+<img src="./image/screenshot_use_api.png" alt="use_api" width="300"/>
 
 ## License
 ```
