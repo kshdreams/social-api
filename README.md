@@ -29,7 +29,7 @@ InstagramAuthDialogFragment
         .show(getFragmentManager(), InstagramClientInfo.CLIENT_ID,
                 InstagramClientInfo.REDIRECT_URI);
 ```
-![](./image/screenshot_login.png=300px)
+<img src="./image/screenshot_login.png" alt="drawing" width="300"/>
 
 ##### Use API
 ```java
