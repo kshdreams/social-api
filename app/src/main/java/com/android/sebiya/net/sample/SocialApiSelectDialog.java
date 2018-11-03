@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.android.sebiya.net.social.band.BandAuthDialogFragment;
-import com.android.sebiya.net.social.instagram.InstagramAuthDialogFragment;
+import com.android.sebiya.net.social.band.BandLogin;
+import com.android.sebiya.net.social.instagram.InstagramLogin;
 import com.android.sebiya.simplearrayadapter.AbsArrayAdapter.AbsViewBinder;
 import com.android.sebiya.simplearrayadapter.AbsArrayAdapter.OnItemClickListener;
 import com.android.sebiya.simplearrayadapter.SimpleArrayAdapter;
@@ -52,12 +52,15 @@ public class SocialApiSelectDialog extends DialogFragment {
                     public void onItemClick(final View view, final int i) {
                         String item = mSocialApiAdapter.getItem(i);
                         if ("Instagram".equals(item)) {
-                            InstagramAuthDialogFragment
-                                    .show(getFragmentManager(), InstagramClientInfo.CLIENT_ID,
-                                            InstagramClientInfo.REDIRECT_URI);
+                            InstagramLogin.with(getFragmentManager())
+                                    .withClientInfo(InstagramClientInfo.CLIENT_ID,
+                                            InstagramClientInfo.REDIRECT_URI)
+                                    .show();
                         } else if ("Band".equals(item)) {
-                            BandAuthDialogFragment.show(getFragmentManager(), BandClientInfo.CLIENT_ID,
-                                    BandClientInfo.CLIENT_SECRET, BandClientInfo.REDIRECT_URL);
+                            BandLogin.with(getFragmentManager())
+                                    .withClientInfo(BandClientInfo.CLIENT_ID,
+                                            BandClientInfo.CLIENT_SECRET, BandClientInfo.REDIRECT_URL)
+                                    .show();
                         }
                         dismissAllowingStateLoss();
                     }

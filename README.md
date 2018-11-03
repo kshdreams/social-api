@@ -27,9 +27,10 @@ The most basic case is as follows:
 
 ##### Login (Auth)
 ```java
-InstagramAuthDialogFragment
-        .show(getFragmentManager(), InstagramClientInfo.CLIENT_ID,
-                InstagramClientInfo.REDIRECT_URI);
+InstagramLogin.with(getFragmentManager())
+        .withClientInfo(InstagramClientInfo.CLIENT_ID,
+                InstagramClientInfo.REDIRECT_URI)
+        .show();
 ```
 
 and target Activity or Fragment should implements ```AuthCallback```
