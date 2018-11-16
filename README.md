@@ -17,7 +17,7 @@ repositories {
 
 // Module level build.gradle
 dependencies {
-implementation 'com.github.kshdreams:social-api:0.2'
+implementation 'com.github.kshdreams:social-api:0.2.1'
 }
 ```
 
