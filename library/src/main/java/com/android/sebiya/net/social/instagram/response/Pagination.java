@@ -11,4 +11,17 @@ public class Pagination {
 
     @SerializedName("next_url")
     private String nextUrl;
+
+    public String getNextMaxId() {
+        return nextMaxId;
+    }
+
+    public String getNextUrl() {
+        return nextUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Pagination[nex - " + nextMaxId + ", url - " + nextUrl + "]";
+    }
 }

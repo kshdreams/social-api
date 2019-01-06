@@ -51,4 +51,14 @@ public class InstagramApiImpl implements InstagramApi {
             }
         });
     }
+
+    @Override
+    public Single<Response<List<UserMedia>>> userSelfRecentMediaNext(final String url) {
+        return Single.defer(new Callable<SingleSource<? extends Response<List<UserMedia>>>>() {
+            @Override
+            public SingleSource<? extends Response<List<UserMedia>>> call() {
+                return getApi().userSelfRecentMediaNext(url);
+            }
+        });
+    }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 public interface InstagramApi {
     @GET("/v1/media/{mediaId}/comments")
@@ -20,4 +21,6 @@ public interface InstagramApi {
     @GET("/v1/users/self/media/recent")
     Single<Response<List<UserMedia>>> userSelfRecentMedia(@Query("access_token") String token);
 
+    @GET
+    Single<Response<List<UserMedia>>> userSelfRecentMediaNext(@Url String url);
 }

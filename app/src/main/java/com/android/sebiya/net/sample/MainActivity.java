@@ -1,5 +1,6 @@
 package com.android.sebiya.net.sample;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,10 +22,12 @@ import com.android.sebiya.net.social.band.response.group.BandInfo;
 import com.android.sebiya.net.social.band.response.group.BandInfoResponse;
 import com.android.sebiya.net.social.instagram.InstagramApi;
 import com.android.sebiya.net.social.instagram.InstagramApiImpl;
+import com.android.sebiya.net.social.instagram.response.Pagination;
 import com.android.sebiya.net.social.instagram.response.Response;
 import com.android.sebiya.net.social.instagram.response.media.UserMedia;
 import com.android.sebiya.net.social.instagram.response.user.UserInfo;
 import com.android.sebiya.simplearrayadapter.AbsArrayAdapter.AbsViewBinder;
+import com.android.sebiya.simplearrayadapter.AbsArrayAdapter.HeaderViewListener;
 import com.android.sebiya.simplearrayadapter.SimpleArrayAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -34,6 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AuthCallbacks<Object> {
+    private static final String LOG_TAG = "MainActivity";
+
+    private static final int TYPE_LOAD_MORE = -10;
 
     private static class Item {
 
@@ -63,7 +70,11 @@ public class MainActivity extends AppCompatActivity implements AuthCallbacks<Obj
 
     private InstagramApi mInstagramApi = new InstagramApiImpl();
 
+    private Pagination mInstagramNextPage;
+
     private BandApi mBandApi = new BandApiImpl();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +119,15 @@ public class MainActivity extends AppCompatActivity implements AuthCallbacks<Obj
     }
 
 
+    @SuppressLint("CheckResult")
     @Override
     public void onAuthCompleted(final Object authResult) {
         Snackbar.make(mRecyclerView, "Auth completed. result - " + authResult, Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
 
         mInfoLayout.setVisibility(View.VISIBLE);
+
+        mInstagramNextPage = null;
 
         if (authResult instanceof String) {
             mMessage.setText("Login with Instagram.");
@@ -124,13 +138,15 @@ public class MainActivity extends AppCompatActivity implements AuthCallbacks<Obj
                     .subscribe(
                             new Consumer<Response<List<UserMedia>>>() {
                                 @Override
-                                public void accept(final Response<List<UserMedia>> listResponse) throws Exception {
+                                public void accept(final Response<List<UserMedia>> listResponse) {
                                     List<Item> data = new ArrayList<>();
                                     for (UserMedia media : listResponse.getData()) {
                                         data.add(Item.create(TextUtils.join(", ", media.getTags()),
                                                 media.getThumbnails()));
                                     }
+                                    mInstagramNextPage = listResponse.getPagination();
                                     mAdapter.swapArray(data);
+                                    handleInstagramLoadMore();
                                 }
                             }, new Consumer<Throwable>() {
                                 @Override
@@ -197,6 +213,62 @@ public class MainActivity extends AppCompatActivity implements AuthCallbacks<Obj
                                     .setAction("Action", null).show();
                         }
                     });
+        }
+    }
+
+    private void handleInstagramLoadMore() {
+        Log.i(LOG_TAG, "handleInstagramLoadMore. load more - " + mInstagramNextPage);
+        if (mInstagramNextPage != null && mInstagramNextPage.getNextUrl() != null) {
+            // TODO : how to remove header view?
+            mAdapter.addHeaderView(mAdapter.getItemCount(), TYPE_LOAD_MORE, R.layout.list_item_load_more,
+                    new HeaderViewListener() {
+                        @Override
+                        public void onCreateHeaderView(final View view, final int i) {
+                            Log.i(LOG_TAG, "onCreateHeaderView");
+                        }
+
+                        @SuppressLint("CheckResult")
+                        @Override
+                        public void onBindHeaderView(final View view, final int i) {
+                            Log.i(LOG_TAG, "onBindHeaderView");
+                            View progress = view.findViewById(R.id.progress);
+                            View loadMore = view.findViewById(R.id.load_more_button);
+                            if (progress.getVisibility() != View.VISIBLE) {
+                                loadMore.setVisibility(View.GONE);
+                                progress.setVisibility(View.VISIBLE);
+                                mInstagramApi.userSelfRecentMediaNext(mInstagramNextPage.getNextUrl())
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Consumer<Response<List<UserMedia>>>() {
+                                            @Override
+                                            public void accept(final Response<List<UserMedia>> listResponse) {
+                                                View progress = view.findViewById(R.id.progress);
+                                                View loadMore = view.findViewById(R.id.load_more_button);
+                                                loadMore.setVisibility(View.VISIBLE);
+                                                progress.setVisibility(View.GONE);
+
+                                                mAdapter.removeHeaderViewByType(TYPE_LOAD_MORE);
+                                                List<Item> data = new ArrayList<>();
+                                                for (UserMedia media : listResponse.getData()) {
+                                                    data.add(Item.create(TextUtils.join(", ", media.getTags()),
+                                                            media.getThumbnails()));
+                                                }
+                                                mAdapter.addAll(data);
+                                                mInstagramNextPage = listResponse.getPagination();
+                                                Log.i(LOG_TAG, "onBindHeaderView. next page - " + mInstagramNextPage);
+                                                handleInstagramLoadMore();
+                                            }
+                                        }, new Consumer<Throwable>() {
+                                            @Override
+                                            public void accept(final Throwable throwable) {
+
+                                            }
+                                        });
+                            }
+                        }
+                    });
+        } else {
+            mAdapter.removeHeaderViewByType(TYPE_LOAD_MORE);
         }
     }
 
