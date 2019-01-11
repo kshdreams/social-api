@@ -21,6 +21,11 @@ public interface InstagramApi {
     @GET("/v1/users/self/media/recent")
     Single<Response<List<UserMedia>>> userSelfRecentMedia(@Query("access_token") String token);
 
+    @GET("/v1/users/self/media/recent")
+    Single<Response<List<UserMedia>>> userSelfRecentMedia(@Query("access_token") String token,
+            @Query("max_id") String maxId, @Query("min_id") String minId,
+            @Query("count") int count);
+
     @GET
     Single<Response<List<UserMedia>>> userSelfRecentMediaNext(@Url String url);
 }

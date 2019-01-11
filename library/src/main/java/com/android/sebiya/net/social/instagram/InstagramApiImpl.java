@@ -53,6 +53,18 @@ public class InstagramApiImpl implements InstagramApi {
     }
 
     @Override
+    public Single<Response<List<UserMedia>>> userSelfRecentMedia(final String token, final String maxId,
+            final String minId,
+            final int count) {
+        return Single.defer(new Callable<SingleSource<? extends Response<List<UserMedia>>>>() {
+            @Override
+            public SingleSource<? extends Response<List<UserMedia>>> call() throws Exception {
+                return getApi().userSelfRecentMedia(token, maxId, minId, count);
+            }
+        });
+    }
+
+    @Override
     public Single<Response<List<UserMedia>>> userSelfRecentMediaNext(final String url) {
         return Single.defer(new Callable<SingleSource<? extends Response<List<UserMedia>>>>() {
             @Override
