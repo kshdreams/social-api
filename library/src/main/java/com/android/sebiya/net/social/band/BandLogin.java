@@ -15,11 +15,14 @@ public class BandLogin {
 
         private final FragmentManager fragmentManager;
 
-        private String clientId;
+        String clientId;
 
-        private String clientSeceret;
+        String clientSeceret;
 
-        private String redirectUrl;
+        String redirectUrl;
+
+        int minWidth;
+        int minHeight;
 
         private AuthCallbacks<AuthResponse> authCallback;
 
@@ -34,8 +37,18 @@ public class BandLogin {
             return this;
         }
 
+        public Builder withMinWidth(int width) {
+            this.minWidth = width;
+            return this;
+        }
+
+        public Builder withMinHeight(int height) {
+            this.minHeight = height;
+            return this;
+        }
+
         public DialogFragment show() {
-            return BandAuthDialogFragment.show(fragmentManager, clientId, clientSeceret, redirectUrl);
+            return BandAuthDialogFragment.show(fragmentManager, this);
         }
     }
 

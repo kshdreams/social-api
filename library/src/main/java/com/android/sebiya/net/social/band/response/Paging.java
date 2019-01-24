@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 @Keep
 public class Paging {
 
+    @SerializedName("previous_params")
+    public Params prevParams;
+
     @SerializedName("next_params")
     public Params nextParams;
 
@@ -16,5 +19,11 @@ public class Paging {
 
         @SerializedName("band_key")
         public String bandKey;
+
+        @SerializedName("limit")
+        public int limit;
+
+        @SerializedName("access_token")
+        public String accessToken;
     }
 }

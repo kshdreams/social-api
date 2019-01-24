@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.webkit.WebView;
 import com.android.sebiya.net.social.AuthCallbacks;
 import com.android.sebiya.net.social.AuthDialogFragment;
+import com.android.sebiya.net.social.band.BandLogin.Builder;
 import com.android.sebiya.net.social.band.response.auth.AuthResponse;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,6 +30,18 @@ public class BandAuthDialogFragment extends AuthDialogFragment<AuthResponse> {
 
     private AuthResponse mTokenInfo;
 
+    public static BandAuthDialogFragment show(FragmentManager fragmentManager, Builder builder) {
+        BandAuthDialogFragment newDialog = newDialog(builder.clientId, builder.clientSeceret, builder.redirectUrl);
+        Bundle args = newDialog.getArguments();
+        if (args == null) {
+            args = new Bundle();
+        }
+        args.putInt(ARGS_WIDTH, builder.minWidth);
+        args.putInt(ARGS_HEIGHT, builder.minHeight);
+        newDialog.setArguments(args);
+        newDialog.show(fragmentManager, "band_auth");
+        return newDialog;
+    }
 
     public static BandAuthDialogFragment show(FragmentManager fragmentManager, String clientId, String clientSecret,
             String redirectUrl) {

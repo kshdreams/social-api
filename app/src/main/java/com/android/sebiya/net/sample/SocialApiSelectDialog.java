@@ -55,11 +55,14 @@ public class SocialApiSelectDialog extends DialogFragment {
                             InstagramLogin.with(getFragmentManager())
                                     .withClientInfo(InstagramClientInfo.CLIENT_ID,
                                             InstagramClientInfo.REDIRECT_URI)
+                                    .withMinHeight(
+                                            getActivity().getWindowManager().getDefaultDisplay().getHeight() - 200)
                                     .show();
                         } else if ("Band".equals(item)) {
                             BandLogin.with(getFragmentManager())
                                     .withClientInfo(BandClientInfo.CLIENT_ID,
                                             BandClientInfo.CLIENT_SECRET, BandClientInfo.REDIRECT_URL)
+                                    .withMinHeight(1000)
                                     .show();
                         }
                         dismissAllowingStateLoss();

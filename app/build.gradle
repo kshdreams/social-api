@@ -4,7 +4,7 @@ android {
     compileSdkVersion compileAndTargetSdk
     defaultConfig {
         applicationId "com.android.sebiya.net.sample"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion compileAndTargetSdk
         versionCode 1
         versionName "1.0"

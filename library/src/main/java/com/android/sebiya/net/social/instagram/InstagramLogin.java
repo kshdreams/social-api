@@ -14,9 +14,13 @@ public class InstagramLogin {
 
         private final FragmentManager fragmentManager;
 
-        private String clientId;
+        String clientId;
 
-        private String redirectUrl;
+        String redirectUrl;
+
+        int minWidth;
+
+        int minHeight;
 
         private AuthCallbacks<String> authCallback;
 
@@ -30,8 +34,18 @@ public class InstagramLogin {
             return this;
         }
 
+        public Builder withMinWidth(int width) {
+            this.minWidth = width;
+            return this;
+        }
+
+        public Builder withMinHeight(int height) {
+            this.minHeight = height;
+            return this;
+        }
+
         public DialogFragment show() {
-            return InstagramAuthDialogFragment.show(fragmentManager, clientId, redirectUrl);
+            return InstagramAuthDialogFragment.show(fragmentManager, this);
         }
     }
 

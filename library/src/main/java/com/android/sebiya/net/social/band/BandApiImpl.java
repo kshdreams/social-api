@@ -1,10 +1,12 @@
 package com.android.sebiya.net.social.band;
 
 import com.android.sebiya.net.SimpleRetrofit;
+import com.android.sebiya.net.social.band.response.PagingItem;
 import com.android.sebiya.net.social.band.response.Response;
 import com.android.sebiya.net.social.band.response.group.BandInfoResponse;
 import com.android.sebiya.net.social.band.response.media.AlbumListResponse;
 import com.android.sebiya.net.social.band.response.media.PhotoListResponse;
+import com.android.sebiya.net.social.band.response.post.Post;
 import com.android.sebiya.net.social.band.response.user.UserInfo;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
@@ -44,11 +46,23 @@ public class BandApiImpl implements BandApi {
 
     @Override
     public Single<PhotoListResponse> photoList(final String token, final String bandKey, final String photoAlbumKey,
-            final String after) {
+            final String after, final Integer limit) {
         return Single.defer(new Callable<SingleSource<? extends PhotoListResponse>>() {
             @Override
             public SingleSource<? extends PhotoListResponse> call() throws Exception {
-                return getApi().photoList(token, bandKey, photoAlbumKey, after);
+                return getApi().photoList(token, bandKey, photoAlbumKey, after, limit);
+            }
+        });
+    }
+
+    @Override
+    public Single<Response<PagingItem<Post>>> postList(final String token, final String bandKey, final String locale,
+            final String after,
+            final Integer limit) {
+        return Single.defer(new Callable<SingleSource<? extends Response<PagingItem<Post>>>>() {
+            @Override
+            public SingleSource<? extends Response<PagingItem<Post>>> call() {
+                return getApi().postList(token, bandKey, locale, after, limit);
             }
         });
     }

@@ -17,6 +17,9 @@ import com.android.sebiya.net.R;
 
 public abstract class AuthDialogFragment<T> extends DialogFragment {
 
+    protected static final String ARGS_WIDTH = "args_width";
+    protected static final String ARGS_HEIGHT = "args_height";
+
     private AuthCallbacks<T> mAuthCallbacks;
     private View mProgress;
 
@@ -45,6 +48,19 @@ public abstract class AuthDialogFragment<T> extends DialogFragment {
         }
         if (mAuthCallbacks == null) {
             throw new IllegalArgumentException("activity should implements auth callbacks");
+        }
+
+        int width = getArguments().getInt(ARGS_WIDTH);
+        int height = getArguments().getInt(ARGS_HEIGHT);
+
+        if (width > 0) {
+            webView.setMinimumWidth(width);
+            view.setMinimumWidth(width);
+        }
+
+        if (height > 0) {
+            webView.setMinimumHeight(height);
+            view.setMinimumHeight(height);
         }
 
         CookieManager instance = CookieManager.getInstance();

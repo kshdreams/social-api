@@ -19,6 +19,19 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
 
     private String mToken;
 
+    public static InstagramAuthDialogFragment show(FragmentManager fragmentManager, InstagramLogin.Builder builder) {
+        InstagramAuthDialogFragment newDialog = newDialog(builder.clientId, builder.redirectUrl);
+        Bundle args = newDialog.getArguments();
+        if (args == null) {
+            args = new Bundle();
+        }
+        args.putInt(ARGS_WIDTH, builder.minWidth);
+        args.putInt(ARGS_HEIGHT, builder.minHeight);
+        newDialog.setArguments(args);
+        newDialog.show(fragmentManager, "auth");
+        return newDialog;
+    }
+
     public static InstagramAuthDialogFragment show(FragmentManager fragmentManager, String clientId,
             String redirectUrl) {
         InstagramAuthDialogFragment newDialog = newDialog(clientId, redirectUrl);
