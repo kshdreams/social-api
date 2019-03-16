@@ -1,13 +1,17 @@
 package com.android.sebiya.net.social.instagram;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.webkit.WebView;
 import com.android.sebiya.net.social.AuthCallbacks;
 import com.android.sebiya.net.social.AuthDialogFragment;
 
 public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
+
+    private static final String LOG_TAG = "InstagramLogin";
 
     private static final String EXTRA_CLIENT_ID = "extra_client_id";
 
@@ -66,7 +70,16 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
     @Override
     protected boolean shouldOverrideUrlLoading(final WebView webView, final String url,
             final AuthCallbacks<String> callback) {
-        if (url == null || !url.startsWith(mRedirectUrl)) {
+        if (url == null) {
+            return false;
+        }
+        Uri uri = Uri.parse(url);
+        if (uri.getPathSegments().isEmpty()) {
+            Log.i(LOG_TAG, "shouldOverrideUrlLoading. instagram home page.");
+            webView.loadUrl(getAuthUrl());
+            return true;
+        }
+        if (!url.startsWith(mRedirectUrl)) {
             return false;
         }
         String replace = url.replace(mRedirectUrl + "#access_token=", "");
