@@ -57,9 +57,9 @@ public class SocialApiSelectDialog extends DialogFragment {
                                     .withFullScreenMode(true)
                                     .withClientInfo(InstagramClientInfo.CLIENT_ID,
                                             InstagramClientInfo.REDIRECT_URI)
-                                    .withMinWidth(getActivity().getWindowManager().getDefaultDisplay().getWidth())
-                                    .withMinHeight(
-                                            getActivity().getWindowManager().getDefaultDisplay().getHeight() - 200)
+//                                    .withMinWidth(getActivity().getWindowManager().getDefaultDisplay().getWidth())
+//                                    .withMinHeight(
+//                                            getActivity().getWindowManager().getDefaultDisplay().getHeight() - 200)
                                     .show();
                         } else if ("Band".equals(item)) {
                             BandLogin.with(getFragmentManager())

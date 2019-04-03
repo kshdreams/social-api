@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -85,11 +86,13 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
         super.onResume();
         if (mFullScreenMode) {
             Window window = getDialog().getWindow();
-            WindowManager.LayoutParams layoutParams = getDialog().getWindow().getAttributes();
-            layoutParams.dimAmount = 50;
-            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            if (window == null) {
+                return;
+            }
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             window.setGravity(Gravity.CENTER);
-            getDialog().getWindow().setAttributes(layoutParams);
+            window.setAttributes(layoutParams);
         }
     }
 
