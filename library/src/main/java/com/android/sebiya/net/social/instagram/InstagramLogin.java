@@ -18,9 +18,13 @@ public class InstagramLogin {
 
         String redirectUrl;
 
+        String startUrl;
+
         int minWidth;
 
         int minHeight;
+
+        boolean fullScreenMode;
 
         private AuthCallbacks<String> authCallback;
 
@@ -41,6 +45,16 @@ public class InstagramLogin {
 
         public Builder withMinHeight(int height) {
             this.minHeight = height;
+            return this;
+        }
+
+        public Builder withStartUrl(String startUrl) {
+            this.startUrl = startUrl;
+            return this;
+        }
+
+        public Builder withFullScreenMode(boolean fullScreenMode) {
+            this.fullScreenMode = fullScreenMode;
             return this;
         }
 

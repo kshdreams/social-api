@@ -53,8 +53,11 @@ public class SocialApiSelectDialog extends DialogFragment {
                         String item = mSocialApiAdapter.getItem(i);
                         if ("Instagram".equals(item)) {
                             InstagramLogin.with(getFragmentManager())
+                                    .withStartUrl("https://www.instagram.com/accounts/login/")
+                                    .withFullScreenMode(true)
                                     .withClientInfo(InstagramClientInfo.CLIENT_ID,
                                             InstagramClientInfo.REDIRECT_URI)
+                                    .withMinWidth(getActivity().getWindowManager().getDefaultDisplay().getWidth())
                                     .withMinHeight(
                                             getActivity().getWindowManager().getDefaultDisplay().getHeight() - 200)
                                     .show();

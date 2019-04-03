@@ -71,7 +71,7 @@ public abstract class AuthDialogFragment<T> extends DialogFragment {
             }
         });
         instance.flush();
-        webView.setHorizontalScrollBarEnabled(false);
+        webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setTextZoom(100);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setBackgroundColor(-1);
@@ -90,6 +90,10 @@ public abstract class AuthDialogFragment<T> extends DialogFragment {
         });
         WebSettings settings = webView.getSettings();
         settings.setDomStorageEnabled(true);
+        onStartLoad(webView);
+    }
+
+    protected void onStartLoad(WebView webView) {
         webView.loadUrl(getAuthUrl());
     }
 
