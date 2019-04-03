@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
@@ -86,6 +88,18 @@ public abstract class AuthDialogFragment<T> extends DialogFragment {
                     return true;
                 }
                 return super.shouldOverrideUrlLoading(webView, url);
+            }
+        });
+        webView.setOnKeyListener(new OnKeyListener() {
+            @Override
+            public boolean onKey(final View v, final int keyCode, final KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (webView.canGoBack()) {
+                        webView.goBack();
+                        return true;
+                    }
+                }
+                return false;
             }
         });
         WebSettings settings = webView.getSettings();
