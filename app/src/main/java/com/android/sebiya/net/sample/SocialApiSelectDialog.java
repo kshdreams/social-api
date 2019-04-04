@@ -55,6 +55,7 @@ public class SocialApiSelectDialog extends DialogFragment {
                             InstagramLogin.with(getFragmentManager())
                                     .withStartUrl("https://www.instagram.com/accounts/login/")
                                     .withFullScreenMode(true)
+                                    .withFullScreenStyle(R.style.AppTheme_FullScreenDialog)
                                     .withClientInfo(InstagramClientInfo.CLIENT_ID,
                                             InstagramClientInfo.REDIRECT_URI)
 //                                    .withMinWidth(getActivity().getWindowManager().getDefaultDisplay().getWidth())

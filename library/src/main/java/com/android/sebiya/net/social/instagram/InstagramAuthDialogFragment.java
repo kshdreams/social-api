@@ -3,6 +3,8 @@ package com.android.sebiya.net.social.instagram;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,6 +29,8 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
 
     private static final String EXTRA_FULL_SCREEN_MODE = "full_screen_mode";
 
+    private static final String EXTRA_FULL_SCREEN_STYLE_RES = "full_screen_style_res";
+
     private String mClientId;
 
     private String mRedirectUrl;
@@ -47,6 +51,7 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
         args.putInt(ARGS_HEIGHT, builder.minHeight);
         args.putString(EXTRA_START_URL, builder.startUrl);
         args.putBoolean(EXTRA_FULL_SCREEN_MODE, builder.fullScreenMode);
+        args.putInt(EXTRA_FULL_SCREEN_STYLE_RES, builder.fullScreenStyle);
         newDialog.setArguments(args);
         newDialog.show(fragmentManager, "auth");
         return newDialog;
@@ -79,6 +84,12 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
         mRedirectUrl = getArguments().getString(EXTRA_REDIRECT_URL);
         mStartUrl = getArguments().getString(EXTRA_START_URL);
         mFullScreenMode = getArguments().getBoolean(EXTRA_FULL_SCREEN_MODE);
+        if (mFullScreenMode) {
+            @StyleRes int fullScreenStyle = getArguments().getInt(EXTRA_FULL_SCREEN_STYLE_RES);
+            if (fullScreenStyle != -1) {
+                setStyle(DialogFragment.STYLE_NORMAL, fullScreenStyle);
+            }
+        }
     }
 
     @Override
@@ -115,6 +126,11 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
             final AuthCallbacks<String> callback) {
         if (url == null) {
             return false;
+        }
+        if (url.startsWith("https://www.facebook.com")) {
+            String newUrl = url.replace("www.facebook.com", "m.facebook.com");
+            webView.loadUrl(newUrl);
+            return true;
         }
         Uri uri = Uri.parse(url);
         if (uri.getPathSegments().isEmpty()) {

@@ -73,10 +73,10 @@ public abstract class AuthDialogFragment<T> extends DialogFragment {
             }
         });
         instance.flush();
-        webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setTextZoom(100);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setBackgroundColor(-1);
+
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView webView, String str) {
                 super.onPageFinished(webView, str);
@@ -90,6 +90,7 @@ public abstract class AuthDialogFragment<T> extends DialogFragment {
                 return super.shouldOverrideUrlLoading(webView, url);
             }
         });
+
         webView.setOnKeyListener(new OnKeyListener() {
             @Override
             public boolean onKey(final View v, final int keyCode, final KeyEvent event) {

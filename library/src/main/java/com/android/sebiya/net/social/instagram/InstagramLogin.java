@@ -1,5 +1,6 @@
 package com.android.sebiya.net.social.instagram;
 
+import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import com.android.sebiya.net.social.AuthCallbacks;
@@ -25,6 +26,8 @@ public class InstagramLogin {
         int minHeight;
 
         boolean fullScreenMode;
+
+        @StyleRes int fullScreenStyle = -1;
 
         private AuthCallbacks<String> authCallback;
 
@@ -55,6 +58,11 @@ public class InstagramLogin {
 
         public Builder withFullScreenMode(boolean fullScreenMode) {
             this.fullScreenMode = fullScreenMode;
+            return this;
+        }
+
+        public Builder withFullScreenStyle(@StyleRes int styleRes) {
+            fullScreenStyle = styleRes;
             return this;
         }
 
