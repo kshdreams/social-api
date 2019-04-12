@@ -21,6 +21,8 @@ public class InstagramLogin {
 
         String startUrl;
 
+        String extraUrl;
+
         int minWidth;
 
         int minHeight;
@@ -63,6 +65,11 @@ public class InstagramLogin {
 
         public Builder withFullScreenStyle(@StyleRes int styleRes) {
             fullScreenStyle = styleRes;
+            return this;
+        }
+
+        public Builder withExtraUrl(String extraUrl) {
+            this.extraUrl = extraUrl;
             return this;
         }
 

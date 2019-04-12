@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
@@ -42,6 +43,11 @@ public abstract class AuthDialogFragment<T> extends DialogFragment {
             throw new IllegalArgumentException("this dialog should include argument clientId and redirect url");
         }
         getDialog().setCanceledOnTouchOutside(false);
+        if (getDialog().getWindow() != null) {
+            getDialog().getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        }
+
         if (getActivity() instanceof AuthCallbacks) {
             mAuthCallbacks = (AuthCallbacks) getActivity();
         }

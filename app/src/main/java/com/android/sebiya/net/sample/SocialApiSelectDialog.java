@@ -58,6 +58,9 @@ public class SocialApiSelectDialog extends DialogFragment {
                                     .withFullScreenStyle(R.style.AppTheme_FullScreenDialog)
                                     .withClientInfo(InstagramClientInfo.CLIENT_ID,
                                             InstagramClientInfo.REDIRECT_URI)
+                                    // https://stackoverflow.com/questions/55449162/https-api-instagram-com-oauth-authorize-api-login-error
+                                    // instagram login bug
+                                    .withExtraUrl("&hl=en")
 //                                    .withMinWidth(getActivity().getWindowManager().getDefaultDisplay().getWidth())
 //                                    .withMinHeight(
 //                                            getActivity().getWindowManager().getDefaultDisplay().getHeight() - 200)

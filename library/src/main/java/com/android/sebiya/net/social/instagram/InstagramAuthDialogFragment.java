@@ -31,6 +31,8 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
 
     private static final String EXTRA_FULL_SCREEN_STYLE_RES = "full_screen_style_res";
 
+    private static final String EXTRA_EXTRA_URL = "extra_url";
+
     private String mClientId;
 
     private String mRedirectUrl;
@@ -38,6 +40,8 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
     private String mStartUrl;
 
     private String mToken;
+
+    private String mExtraUrl;
 
     private boolean mFullScreenMode;
 
@@ -52,6 +56,7 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
         args.putString(EXTRA_START_URL, builder.startUrl);
         args.putBoolean(EXTRA_FULL_SCREEN_MODE, builder.fullScreenMode);
         args.putInt(EXTRA_FULL_SCREEN_STYLE_RES, builder.fullScreenStyle);
+        args.putString(EXTRA_EXTRA_URL, builder.extraUrl);
         newDialog.setArguments(args);
         newDialog.show(fragmentManager, "auth");
         return newDialog;
@@ -84,6 +89,7 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
         mRedirectUrl = getArguments().getString(EXTRA_REDIRECT_URL);
         mStartUrl = getArguments().getString(EXTRA_START_URL);
         mFullScreenMode = getArguments().getBoolean(EXTRA_FULL_SCREEN_MODE);
+        mExtraUrl = getArguments().getString(EXTRA_EXTRA_URL);
         if (mFullScreenMode) {
             @StyleRes int fullScreenStyle = getArguments().getInt(EXTRA_FULL_SCREEN_STYLE_RES);
             if (fullScreenStyle != -1) {
@@ -109,7 +115,11 @@ public class InstagramAuthDialogFragment extends AuthDialogFragment<String> {
 
     @Override
     protected String getAuthUrl() {
-        return String.format(InstagramUrls.AUTH_URL, mClientId, mRedirectUrl);
+        String authUrl = String.format(InstagramUrls.AUTH_URL, mClientId, mRedirectUrl);
+        if (mExtraUrl != null) {
+            authUrl += mExtraUrl;
+        }
+        return authUrl;
     }
 
     @Override
